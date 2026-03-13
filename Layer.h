@@ -1,13 +1,23 @@
-#pragma once
-#include <vector>
 #include "Neuron.h"
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+#include <vector>
 
-class Layer{
+
+class Layer {
 public:
-	Layer(std::vector<double>& inputs, numNeurons);
-	std::vector<Neuron> neuros;
-	std::vector<double> forward(std::vector<double>& inputs);
-	std::vector<double> layerWeights;
-	int numNeurons;
+    Layer(int inputSize, int numNeurons);
 
-}
+    std::vector<double> forward(const std::vector<double>& inputs);
+
+    void fillWeights();
+    void initializeNeurons();
+
+    int numNeurons;
+    int inputSize;
+
+    std::vector<double> layerWeights;
+    std::vector<Neuron> neurons;
+    std::vector<double> output;
+};

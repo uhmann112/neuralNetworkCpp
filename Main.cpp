@@ -1,19 +1,38 @@
 #include <iostream>
-#include "Neuron.h"
+#include <vector>
+#include <chrono>
+#include "Layer.h"
 
 int main() {
-    srand(time(nullptr));
+    srand(static_cast<unsigned>(time(nullptr)));
 
-    std::vector<double> inputs = {1.0, 2.0, 3.0};
+    // Mehr Neuronen = mehr Rechenlast
+    Layer layer(3, 128);
 
-    Neuron n(inputs);
+    const int samples = 50000;
+    std::vector<std::vector<double>> dataset(samples, std::vector<double>(3));
 
-    std::cout << "Running sanity check...\n";
+    // Chaotische, aber deterministische Inputs
+    for (int i = 0; i < samples; i++) {
+        double x = ((rand() % 2000) - 1000) / 1000.0;
+        double y = ((rand() % 2000) - 1000) / 1000.0;
+        double z = ((rand() % 2000) - 1000) / 1000.0;
 
-    for (int i = 0; i < 100000; ++i){
-        n.processFw(inputs, inputs);
+        dataset[i] = { x, y, z };
     }
-    std::cout << "Neuron output: " << n.output<< "\n";
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // Reiner Forward‑Pass Benchmark
+    for (int i = 0; i < samples; i++) {
+        layer.forward(dataset[i]);
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    double ms = std::chrono::duration<double, std::milli>(end - start).count();
+
+    std::cout << "Zeit für " << samples << " Forward-Passes: "
+              << ms << " ms" << std::endl;
 
     return 0;
 }
