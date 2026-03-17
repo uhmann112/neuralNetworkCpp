@@ -13,6 +13,7 @@ public:
     std::vector<double> softmax(const std::vector<double>& inputs);
     void fillWeights();
     void initializeNeurons();
+    void learn(std::vector<double>& expected);
 
     int numNeurons;
     int inputSize;
@@ -20,4 +21,6 @@ public:
     std::vector<double> layerWeights;
     std::vector<Neuron> neurons;
     std::vector<double> output;
+    std::vector<double> deltas;
+    std::vector<double> layerInputs;
 };

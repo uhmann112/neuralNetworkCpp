@@ -10,6 +10,8 @@
 Layer::Layer(int inputSize,int numNeurons){
 	this->inputSize=inputSize;
 	this->numNeurons =numNeurons;
+	this->deltas.resize(numNeurons);
+
 	fillWeights();
 	initializeNeurons();
 
@@ -34,6 +36,7 @@ void Layer::initializeNeurons(){
 }
 
 std::vector<double> Layer::forward(const std::vector<double>& inputs) {
+	layerInputs=inputs;
     output.clear();
 
     for (int i = 0; i < numNeurons; ++i) {
@@ -55,6 +58,25 @@ std::vector<double> Layer::softmax(const std::vector<double>& inputs){
 		softOut[i]=softOut[i]/sum;
 	}
 	return softOut;
+}
+
+void Layer::learn(std::vector<double>& expected){
+	//itterieren ueber alle outputs aus FORWARD und packe die diff zwischen OUT und EXPECTED in DELTAS
+	for (int i = 0; i < output.size(); ++i){
+		deltas[i]=output[i]-expected[i];
+	}
+	
+
+	//jedes NEURON hat einen stIndex, von diesem index aus itterieren wir ueber alle inputs und weights
+	//(weights hat die groesse inputs*neurons) deltas ist so grpos wie neurons deswegen iterieren wir ueber i!
+	int index=0;
+	for (int i = 0; i < numNeurons; ++i){
+		index=neurons[i].weightStartIndex;
+		for (int j = 0; j < inputSize; ++j){
+			layerWeights[index+j]-= 0.01*layerInputs[j]*deltas[i];
+		}
+	}
+
 }
 
 

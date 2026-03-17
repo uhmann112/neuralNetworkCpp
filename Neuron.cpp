@@ -30,3 +30,5 @@ double Neuron::processFW(const std::vector<double>& inputs){
 double Neuron::sigmoid(double x) {
     return 1.0 / (1.0 + std::exp(-x));
 }
+
+

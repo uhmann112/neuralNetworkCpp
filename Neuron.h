@@ -10,10 +10,11 @@ public:
 
     double sigmoid(double weightedSum);
 
+    size_t weightStartIndex;
+
 private:
     size_t numInputs;
     double bias;
     double weightedSum;
-    size_t weightStartIndex;
     std::vector<double>& weights;
 };
