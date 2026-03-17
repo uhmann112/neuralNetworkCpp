@@ -75,9 +75,12 @@ void Layer::learn(std::vector<double>& expected){
 		for (int j = 0; j < inputSize; ++j){
 			layerWeights[index+j]-= 0.01*layerInputs[j]*deltas[i];
 		}
+		neurons[i].bias-=0.01*deltas[i];
 	}
 
 }
+
+
 
 
 

@@ -12,9 +12,10 @@ public:
 
     size_t weightStartIndex;
 
+    double bias;
+
 private:
     size_t numInputs;
-    double bias;
     double weightedSum;
     std::vector<double>& weights;
 };
