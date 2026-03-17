@@ -10,7 +10,7 @@ public:
     Layer(int inputSize, int numNeurons);
 
     std::vector<double> forward(const std::vector<double>& inputs);
-
+    std::vector<double> softmax(const std::vector<double>& inputs);
     void fillWeights();
     void initializeNeurons();
 

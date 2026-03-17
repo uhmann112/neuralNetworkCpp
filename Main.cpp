@@ -6,33 +6,22 @@
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
 
-    // Mehr Neuronen = mehr Rechenlast
-    Layer layer(3, 128);
+    // Layer(ANZAHL_DER_INPUTS,ANZAHL_DER NEURONEN)
+    Layer layer(3, 3);
 
-    const int samples = 50000;
-    std::vector<std::vector<double>> dataset(samples, std::vector<double>(3));
+ 
 
-    // Chaotische, aber deterministische Inputs
+
+    int samples=20;
+    std::vector<double> dataset = {1.2,-0.2,2.3};
+    std::vector<double> softmaxVals;
     for (int i = 0; i < samples; i++) {
-        double x = ((rand() % 2000) - 1000) / 1000.0;
-        double y = ((rand() % 2000) - 1000) / 1000.0;
-        double z = ((rand() % 2000) - 1000) / 1000.0;
-
-        dataset[i] = { x, y, z };
+        std::vector output1 =layer.forward(dataset);
+        softmaxVals=layer.softmax(output1);
     }
-
-    auto start = std::chrono::high_resolution_clock::now();
-
-    // Reiner Forward‑Pass Benchmark
-    for (int i = 0; i < samples; i++) {
-        layer.forward(dataset[i]);
+    for(auto n:softmaxVals){
+        std::cout<<n<<", ";
     }
-
-    auto end = std::chrono::high_resolution_clock::now();
-    double ms = std::chrono::duration<double, std::milli>(end - start).count();
-
-    std::cout << "Zeit für " << samples << " Forward-Passes: "
-              << ms << " ms" << std::endl;
-
+    std::cout<<" "<<std::endl;
     return 0;
 }

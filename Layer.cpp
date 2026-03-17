@@ -42,3 +42,21 @@ std::vector<double> Layer::forward(const std::vector<double>& inputs) {
 
     return output;
 }
+
+std::vector<double> Layer::softmax(const std::vector<double>& inputs){
+	double sum=0;
+	std::vector<double> softOut(inputs.size());
+	for (int i = 0; i < inputs.size(); ++i){
+		double sq= inputs[i]*inputs[i];
+		softOut[i]=sq;
+		sum+=sq;
+	}
+	for (int i = 0; i < inputs.size(); ++i){
+		softOut[i]=softOut[i]/sum;
+	}
+	return softOut;
+}
+
+
+
+
